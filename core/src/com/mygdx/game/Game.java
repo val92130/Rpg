@@ -25,6 +25,8 @@ public class Game
     Camera camera;
     InputManager inputManager;
     BitmapFont font;
+    StopWatch watch;
+
     public Game(int boxCountPerLine, int boxSize)
     {
         inputManager = new InputManager(this);
@@ -40,6 +42,7 @@ public class Game
 
         font = new BitmapFont();
         font.setColor(Color.RED);
+        watch = new StopWatch();
 
     }
 
@@ -87,34 +90,9 @@ public class Game
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         spriteBatch.begin();
         this.RenderBoxes(spriteBatch);
-        //this.renderText(spriteBatch);
         spriteBatch.end();
     }
 
-    public void renderText(SpriteBatch batch)
-    {
-        int left = (int)(camera.getCamera().position.x - (camera.getCamera().viewportWidth / 2.0)) / this.boxSize;
-        int top = (int)(camera.getCamera().position.y + (camera.getCamera().viewportHeight / 2.0) )/ this.boxSize;
-        int right = (int)(camera.getCamera().position.x + (camera.getCamera().viewportWidth / 2.0) )/ this.boxSize + this.boxSize;
-        int bottom = (int)(camera.getCamera().position.y - (camera.getCamera().viewportHeight / 2.0) )/ this.boxSize - this.boxSize;
-        font.draw(batch, "left", left, 0);
-        font.draw(batch, "top", 0, top);
-        font.draw(batch, "right", right, 0);
-        font.draw(batch, "bottom", 0, bottom);
-
-        for(int i = left; i < right; i++)
-        {
-            for(int j = top; j > bottom; j--)
-            {
-                Box b = this.getBoxAt(i,j);
-                if(b != null)
-                {
-                    b.setTextureType(EBoxGround.WATER);
-                }
-            }
-        }
-
-    }
 
     public void UpdateBoxes()
     {
@@ -143,10 +121,10 @@ public class Game
     public ArrayList<Box> getOverlappedBoxes(Rectangle r)
     {
         ArrayList boxList = new ArrayList<Box>();
-        int left = (int)(camera.getCamera().position.x - (camera.getCamera().viewportWidth / 2.0)) / this.boxSize;
-        int top = (int)(camera.getCamera().position.y + (camera.getCamera().viewportHeight / 2.0) )/ this.boxSize;
-        int right = (int)(camera.getCamera().position.x + (camera.getCamera().viewportWidth / 2.0))/ this.boxSize + this.boxSize;
-        int bottom = (int)(camera.getCamera().position.y - (camera.getCamera().viewportHeight / 2.0))/ this.boxSize - this.boxSize;
+        int left = (int)(camera.getCamera().position.x - (camera.getEffectiveViewportWidth() / 2.0)) / this.boxSize;
+        int top = (int)(camera.getCamera().position.y + (camera.getEffectiveViewportHeight() / 2.0) )/ this.boxSize;
+        int right = (int)(camera.getCamera().position.x + (camera.getEffectiveViewportWidth() / 2.0))/ this.boxSize + this.boxSize;
+        int bottom = (int)(camera.getCamera().position.y - (camera.getEffectiveViewportHeight() / 2.0))/ this.boxSize - this.boxSize;
 
         for(int i = left; i < right; i++)
         {

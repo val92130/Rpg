@@ -19,24 +19,24 @@ public class InputManager implements InputProcessor {
 
     public void Update()
     {
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
+        if(Gdx.input.isKeyPressed(Constants.KEY_MOVE_LEFT))
         {
-            game.getCamera().Move(new Vector2(-Constants.CAMERA_SPEED ,0 ));
+            game.getCamera().Move(new Vector2(-Constants.CAMERA_SPEED * Gdx.graphics.getDeltaTime() ,0 ));
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+        if(Gdx.input.isKeyPressed(Constants.KEY_MOVE_RIGHT))
         {
-            game.getCamera().Move(new Vector2(Constants.CAMERA_SPEED ,0 ));
+            game.getCamera().Move(new Vector2(Constants.CAMERA_SPEED* Gdx.graphics.getDeltaTime() ,0 ));
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.UP))
+        if(Gdx.input.isKeyPressed(Constants.KEY_MOVE_UP))
         {
-            game.getCamera().Move(new Vector2(0,Constants.CAMERA_SPEED  ));
+            game.getCamera().Move(new Vector2(0,Constants.CAMERA_SPEED* Gdx.graphics.getDeltaTime()  ));
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
+        if(Gdx.input.isKeyPressed(Constants.KEY_MOVE_DOWN))
         {
-            game.getCamera().Move(new Vector2(0,-Constants.CAMERA_SPEED ));
+            game.getCamera().Move(new Vector2(0,-Constants.CAMERA_SPEED* Gdx.graphics.getDeltaTime() ));
         }
 
 
