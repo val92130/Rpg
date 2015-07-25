@@ -13,7 +13,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		game = new Game(50,100);
+		game = new Game(500,100);
 	}
 
 	@Override

@@ -46,9 +46,6 @@ public class Camera {
         cam.zoom += ammount;
         effectiveViewportWidth = cam.viewportWidth * cam.zoom;
         effectiveViewportHeight = cam.viewportHeight * cam.zoom;
-
-        System.out.println(cam.zoom);
-        System.out.println("Height : " + effectiveViewportHeight);
     }
 
 

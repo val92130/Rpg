@@ -5,11 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-
 import java.util.ArrayList;
 
 /**
@@ -108,14 +104,17 @@ public class Game
     public void RenderBoxes(SpriteBatch spriteBatch)
     {
 
-
         Rectangle camRect = new Rectangle(this.camera.getCamera().position.x,this.camera.getCamera().position.y, this.camera.getCamera().viewportWidth, this.camera.getCamera().viewportHeight );
         ArrayList<Box> boxList = this.getOverlappedBoxes(camRect);
+
+        System.out.println(boxList.size());
+
 
         for(Box bo : boxList)
         {
             bo.Draw(spriteBatch);
         }
+
     }
 
     public ArrayList<Box> getOverlappedBoxes(Rectangle r)
@@ -123,12 +122,12 @@ public class Game
         ArrayList boxList = new ArrayList<Box>();
         int left = (int)(camera.getCamera().position.x - (camera.getEffectiveViewportWidth() / 2.0)) / this.boxSize;
         int top = (int)(camera.getCamera().position.y + (camera.getEffectiveViewportHeight() / 2.0) )/ this.boxSize;
-        int right = (int)(camera.getCamera().position.x + (camera.getEffectiveViewportWidth() / 2.0))/ this.boxSize + this.boxSize;
-        int bottom = (int)(camera.getCamera().position.y - (camera.getEffectiveViewportHeight() / 2.0))/ this.boxSize - this.boxSize;
+        int right = (int)(camera.getCamera().position.x + (camera.getEffectiveViewportWidth() / 2.0))/ this.boxSize ;
+        int bottom = (int)(camera.getCamera().position.y - (camera.getEffectiveViewportHeight() / 2.0))/ this.boxSize ;
 
-        for(int i = left; i < right; i++)
+        for(int i = left; i < right + 1; i++)
         {
-            for(int j = top; j > bottom; j--)
+            for(int j = top; j > bottom - 1; j--)
             {
                 Box b = this.getBoxAt(i,j);
                 if(b != null)
