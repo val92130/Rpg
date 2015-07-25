@@ -77,7 +77,7 @@ public class InputManager implements InputProcessor {
 
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         Vector2 offset = new Vector2(-(screenX - touchPos.x), screenY - touchPos.y);
-        this.game.camera.Move(offset);
+        this.game.camera.Move(offset );
         touchPos = new Vector2(screenX, screenY);
         return false;
     }

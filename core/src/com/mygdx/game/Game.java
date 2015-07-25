@@ -2,10 +2,15 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+
 import java.util.ArrayList;
 
 /**
@@ -22,6 +27,7 @@ public class Game
     InputManager inputManager;
     BitmapFont font;
     StopWatch watch;
+    FPSLogger fpsLogger = new FPSLogger();
 
     public Game(int boxCountPerLine, int boxSize)
     {
@@ -37,9 +43,9 @@ public class Game
         boxes[0][0].setTextureType(EBoxGround.WATER);
 
         font = new BitmapFont();
-        font.setColor(Color.RED);
-        watch = new StopWatch();
+        font.setColor(Color.WHITE);
 
+        watch = new StopWatch();
     }
 
     public void createBoxes()
@@ -50,7 +56,7 @@ public class Game
             for(int j = 0; j < boxCountPerLine; j++)
             {
                 boxes[i][j] = new Box(this,i * boxSize,j * boxSize,boxSize,boxSize);
-                if(j % 2 == 0)
+                if(i % 2 == 0 && j %2 == 0)
                 {
                     boxes[i][j].setTextureType(EBoxGround.DIRT);
                 }
@@ -86,6 +92,9 @@ public class Game
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         spriteBatch.begin();
         this.RenderBoxes(spriteBatch);
+        Vector3 fontPos = new Vector3(0,0,0);
+        fontPos = camera.getCamera().unproject(fontPos);
+        font.draw(spriteBatch, String.valueOf(Gdx.graphics.getFramesPerSecond()) + " FPS", fontPos.x, fontPos.y);
         spriteBatch.end();
     }
 
@@ -105,11 +114,7 @@ public class Game
     {
 
         Rectangle camRect = new Rectangle(this.camera.getCamera().position.x,this.camera.getCamera().position.y, this.camera.getCamera().viewportWidth, this.camera.getCamera().viewportHeight );
-        ArrayList<Box> boxList = this.getOverlappedBoxes(camRect);
-
-        System.out.println(boxList.size());
-
-
+        ArrayList<Box> boxList = this.getOverlappedBoxes();
         for(Box bo : boxList)
         {
             bo.Draw(spriteBatch);
@@ -117,7 +122,7 @@ public class Game
 
     }
 
-    public ArrayList<Box> getOverlappedBoxes(Rectangle r)
+    public ArrayList<Box> getOverlappedBoxes()
     {
         ArrayList boxList = new ArrayList<Box>();
         int left = (int)(camera.getCamera().position.x - (camera.getEffectiveViewportWidth() / 2.0)) / this.boxSize;
