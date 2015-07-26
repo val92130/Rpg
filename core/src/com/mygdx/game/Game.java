@@ -61,12 +61,15 @@ public class Game
         spriteBatch.setProjectionMatrix(camera.getCamera().combined);
         Gdx.gl.glClearColor(0,0,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        map.draw(spriteBatch);
         spriteBatch.begin();
         Vector3 fontPos = new Vector3(0,0,0);
         fontPos = camera.getCamera().unproject(fontPos);
-        font.draw(spriteBatch, String.valueOf(Gdx.graphics.getFramesPerSecond()) + " FPS", fontPos.x, fontPos.y);
 
-        map.draw(spriteBatch);
+
+
+        font.draw(spriteBatch, String.valueOf(Gdx.graphics.getFramesPerSecond()) + " FPS", fontPos.x, fontPos.y);
+        //System.out.println(camera.getCamera().position);
 
         spriteBatch.end();
     }

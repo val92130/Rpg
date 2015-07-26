@@ -25,14 +25,17 @@ public class GameMap {
         map = new TmxMapLoader().load(fileName);
 
         mapRenderer = new OrthogonalTiledMapRenderer(getMap(), ratio);
-
-        TiledMapTileLayer layer = (TiledMapTileLayer)map.getLayers().get("collision");
     }
 
     public boolean isCollision(int x, int y)
     {
         TiledMapTileLayer t = getCollisionLayer();
         return t.getCell(x,y) != null;
+    }
+
+    public int getScaleRatio()
+    {
+        return ratio;
     }
 
     public boolean isCollisionClosestCell(int x, int y)
