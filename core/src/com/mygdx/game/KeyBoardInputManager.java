@@ -10,11 +10,11 @@ import com.badlogic.gdx.math.Vector3;
 /**
  * Created by val on 23/07/2015.
  */
-public class InputManager implements InputProcessor {
+public class KeyBoardInputManager implements InputProcessor {
     Game game;
     boolean left,right,up,down;
     Vector2 touchPos;
-    public InputManager(Game game)
+    public KeyBoardInputManager(Game game)
     {
         this.game = game;
     }
@@ -57,17 +57,6 @@ public class InputManager implements InputProcessor {
     }
 
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
-        touchPos = new Vector2(screenX, screenY);
-        Vector3 unproject = game.camera.getCamera().unproject(new Vector3(screenX, screenY,0));
-        int boxX = (int)unproject.x / game.boxSize;
-        int boxY = (int)unproject.y / game.boxSize;
-        Box b = game.getBoxAt(boxX,boxY);
-        if(b != null)
-        {
-            //b.setTextureType(EBoxGround.WATER);
-        }
-
         return false;
     }
 
@@ -76,9 +65,6 @@ public class InputManager implements InputProcessor {
     }
 
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        Vector2 offset = new Vector2(-(screenX - touchPos.x), screenY - touchPos.y);
-        this.game.camera.Move(offset );
-        touchPos = new Vector2(screenX, screenY);
         return false;
     }
 
