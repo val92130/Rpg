@@ -33,7 +33,7 @@ public class TouchInputManager implements GestureDetector.GestureListener {
             System.out.println("not blocked");
         }
 
-
+        game.getMap().getPlayer().moveTo(game.getCamera().getCamera().unproject(new Vector3(x,y,0)));
         System.out.println("tap");
         return false;
     }
@@ -61,13 +61,20 @@ public class TouchInputManager implements GestureDetector.GestureListener {
 
     @Override
     public boolean zoom(float initialDistance, float distance) {
-        System.out.println("zoomed ! ");
+        System.out.println(initialDistance + " : " + distance);
+        if(distance > initialDistance)
+        {
+            game.getCamera().Zoom(-(0.01 * (distance / initialDistance)));
+        } else
+        {
+            game.getCamera().Zoom(0.01 * (initialDistance / distance));
+        }
+        //game.getCamera().Zoom(0.005);
         return false;
     }
 
     @Override
     public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
-        System.out.println("pinched ! ");
         return false;
     }
 }

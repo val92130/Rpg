@@ -33,15 +33,16 @@ public class Camera {
         return cam;
     }
 
-    public void Update()
+    public void update()
     {
         cam.update();
+        correctBoundaries();
     }
 
 
     public void Zoom(double ammount)
     {
-        if(cam.zoom + ammount <= 0.4 || cam.zoom + ammount > 2.5 )
+        if(cam.zoom + ammount <= 1 || cam.zoom + ammount > 2.5 )
         {
             return;
         }
@@ -64,7 +65,6 @@ public class Camera {
         if(camPos.x  < 0)
         {
             cam.position.x = effectiveViewportWidth / 2;
-            System.out.println("inferieur a 0");
         }
 
         int mapWidth = game.getMap().getGroundLayer().getWidth() * Constants.TILE_SIZE * game.getMap().getScaleRatio();
@@ -72,18 +72,15 @@ public class Camera {
         if(cam.position.x + (effectiveViewportWidth / 2) > mapWidth)
         {
             cam.position.x = mapWidth - (effectiveViewportWidth / 2);
-            System.out.println("depassement a droite");
         }
 
         if(cam.position.y + (effectiveViewportHeight / 2) > mapHeight)
         {
-            System.out.println("depassement en haut");
             cam.position.y = mapHeight - (effectiveViewportHeight / 2);
         }
 
         if(cam.position.y - (effectiveViewportHeight / 2) < 0)
         {
-            System.out.println("depassement en bas");
             cam.position.y = (effectiveViewportHeight / 2);
         }
     }

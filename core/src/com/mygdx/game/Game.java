@@ -8,10 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-
-import java.util.ArrayList;
 
 /**
  * Created by val on 23/07/2015.
@@ -36,8 +33,6 @@ public class Game
         im.addProcessor(new KeyBoardInputManager(this));
         inputManager = new KeyBoardInputManager(this);
         Gdx.input.setInputProcessor(im);
-
-
         camera = new Camera(this);
         textureManager = new TextureManager();
         textureManager.loadTextures();
@@ -45,7 +40,6 @@ public class Game
         font.setColor(Color.WHITE);
         watch = new StopWatch();
         map = new GameMap("map01.tmx", this);
-
     }
 
 
@@ -53,7 +47,7 @@ public class Game
     {
         map.update();
         inputManager.Update();
-        camera.Update();
+        camera.update();
     }
 
     public void render(SpriteBatch spriteBatch)
@@ -61,23 +55,14 @@ public class Game
         spriteBatch.setProjectionMatrix(camera.getCamera().combined);
         Gdx.gl.glClearColor(0,0,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         map.draw(spriteBatch);
         spriteBatch.begin();
         Vector3 fontPos = new Vector3(0,0,0);
         fontPos = camera.getCamera().unproject(fontPos);
-
-
-
         font.draw(spriteBatch, String.valueOf(Gdx.graphics.getFramesPerSecond()) + " FPS", fontPos.x, fontPos.y);
-        //System.out.println(camera.getCamera().position);
-
         spriteBatch.end();
     }
-
-
-
-
-
 
     public TextureManager getTextureManager()
     {

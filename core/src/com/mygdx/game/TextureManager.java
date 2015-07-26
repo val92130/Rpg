@@ -15,7 +15,6 @@ public class TextureManager {
 
     public void loadTextures()
     {
-
     }
 
 }
