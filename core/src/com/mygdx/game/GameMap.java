@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by val on 26/07/2015.
@@ -27,7 +28,7 @@ public class GameMap {
     public GameMap(String fileName, Game game)
     {
         npcs = new ArrayList<Character>();
-        player = new Character(game, new Texture(Gdx.files.internal("player.png")),60,100, new Vector2(5 * 16 * ratio, 25 * 16 * ratio) );
+        player = new Character(game, new Texture(Gdx.files.internal("player.png")),60,100, new Vector2(5 * 16 * ratio, 20 * 16 * ratio) );
         this.game = game;
         this.fileName = fileName;
         map = new TmxMapLoader().load(fileName);
@@ -62,6 +63,23 @@ public class GameMap {
     public Character getPlayer()
     {
         return player;
+    }
+
+    public HashMap<TiledMapTileLayer.Cell, Vector2> getCollisionCells()
+    {
+        HashMap<TiledMapTileLayer.Cell, Vector2> cells = new HashMap<TiledMapTileLayer.Cell, Vector2>();
+        for(int i = 0; i < getCollisionLayer().getWidth(); i++)
+        {
+            for(int j = 0; j < getCollisionLayer().getHeight(); j++)
+            {
+                TiledMapTileLayer.Cell c = this.getCollisionLayer().getCell(i, j);
+                if(c != null)
+                {
+                    cells.put(c, new Vector2(i,j));
+                }
+            }
+        }
+        return cells;
     }
 
     public boolean isCollision(int x, int y)

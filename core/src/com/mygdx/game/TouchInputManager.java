@@ -28,12 +28,13 @@ public class TouchInputManager implements GestureDetector.GestureListener {
         if(game.getMap().isCollisionClosestCell((int)x,(int)y))
         {
             System.out.println("blocked");
+
         } else
         {
+            game.getMap().getPlayer().moveTo(game.getCamera().getCamera().unproject(new Vector3(x,y,0)));
             System.out.println("not blocked");
         }
 
-        game.getMap().getPlayer().moveTo(game.getCamera().getCamera().unproject(new Vector3(x,y,0)));
         System.out.println("tap");
         return false;
     }

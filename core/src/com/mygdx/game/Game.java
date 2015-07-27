@@ -23,8 +23,6 @@ public class Game
     private FPSLogger fpsLogger = new FPSLogger();
     private GameMap map;
 
-    private Player player;
-
     public Game(int boxCountPerLine, int boxSize)
     {
         InputMultiplexer im = new InputMultiplexer();
