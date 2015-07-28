@@ -1,21 +1,18 @@
-package com.mygdx.game;
+package com.mygdx.game.InputHandling;
 
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.mygdx.game.Screens.GameScreen;
 
 /**
  * Created by val on 26/07/2015.
  */
 public class TouchInputManager implements GestureDetector.GestureListener {
-    private Game game;
-    public TouchInputManager(Game game)
+    private GameScreen game;
+    public TouchInputManager(GameScreen screen)
     {
-        this.game = game;
+        this.game = screen;
     }
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {
@@ -62,7 +59,6 @@ public class TouchInputManager implements GestureDetector.GestureListener {
 
     @Override
     public boolean zoom(float initialDistance, float distance) {
-        System.out.println(initialDistance + " : " + distance);
         if(distance > initialDistance)
         {
             game.getCamera().Zoom(-(0.01 * (distance / initialDistance)));
@@ -70,7 +66,6 @@ public class TouchInputManager implements GestureDetector.GestureListener {
         {
             game.getCamera().Zoom(0.01 * (initialDistance / distance));
         }
-        //game.getCamera().Zoom(0.005);
         return false;
     }
 

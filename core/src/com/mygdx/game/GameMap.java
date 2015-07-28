@@ -9,6 +9,9 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.mygdx.game.Characters.Character;
+import com.mygdx.game.Screens.GameScreen;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,17 +20,15 @@ import java.util.HashMap;
  * Created by val on 26/07/2015.
  */
 public class GameMap {
-    private Game game;
+    private GameScreen game;
     private String fileName;
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     private int ratio = 4;
-    private ArrayList<Character> npcs;
     private Character player;
 
-    public GameMap(String fileName, Game game)
+    public GameMap(String fileName, GameScreen game)
     {
-        npcs = new ArrayList<Character>();
         player = new Character(game, new Texture(Gdx.files.internal("player.png")),60,100, new Vector2(5 * 16 * ratio, 20 * 16 * ratio) );
         this.game = game;
         this.fileName = fileName;
@@ -38,10 +39,6 @@ public class GameMap {
 
     public void update()
     {
-        for(Character c : npcs)
-        {
-            c.update();
-        }
         player.update();
     }
 
@@ -49,12 +46,7 @@ public class GameMap {
     {
         mapRenderer.setView(game.getCamera().getCamera());
         mapRenderer.render();
-
         batch.begin();
-        for(Character c : npcs)
-        {
-            c.render(batch);
-        }
 
         player.render(batch);
         batch.end();

@@ -1,23 +1,14 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Game;
+import com.mygdx.game.Screens.GameScreen;
+import com.mygdx.game.Screens.SplashScreen;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+public class MyGdxGame extends Game {
 
-public class MyGdxGame extends ApplicationAdapter {
-	SpriteBatch batch;
-	Game game;
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		game = new Game(500,100);
+		setScreen(new SplashScreen());
 	}
 
-	@Override
-	public void render () {
-
-		game.update();
-		game.render(batch);
-		super.render();
-	}
 }

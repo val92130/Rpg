@@ -1,14 +1,16 @@
-package com.mygdx.game;
+package com.mygdx.game.Characters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.mygdx.game.Constants;
+import com.mygdx.game.Screens.GameScreen;
 
 import java.util.Map;
 
@@ -17,7 +19,7 @@ import java.util.Map;
  */
 public class Character {
 
-    private Game game;
+    private GameScreen game;
     private Vector2 position = new Vector2(0,0);
     private Texture texture;
     private int width, height;
@@ -26,7 +28,7 @@ public class Character {
     Texture redCrossTexture, greenCrossTexture;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
 
-    public Character(Game game, Texture texture, int width, int height)
+    public Character(GameScreen game, Texture texture, int width, int height)
     {
         redCrossTexture = new Texture(Gdx.files.internal("red-cross.png"));
         greenCrossTexture = new Texture(Gdx.files.internal("green-cross.png"));
@@ -36,7 +38,7 @@ public class Character {
         this.game = game;
     }
 
-    public Character(Game game, Texture texture,int width, int height ,Vector2 position)
+    public Character(GameScreen game, Texture texture,int width, int height ,Vector2 position)
     {
         this(game,texture, width, height);
         this.position = position;
@@ -71,6 +73,7 @@ public class Character {
             batch.draw(greenCrossTexture, destinationPoint.x, destinationPoint.y, 50,50);
         }
         batch.draw(texture, position.x, position.y, width, height);
+
     };
 
 
@@ -84,8 +87,7 @@ public class Character {
 
             Rectangle r = new Rectangle(v.x, v.y, Constants.TILE_SIZE * game.getMap().getScaleRatio(), Constants.TILE_SIZE * game.getMap().getScaleRatio());
 
-            Rectangle hitBox = new Rectangle(position.x - this.width / 2 * 0.5f, position.y - this.height  + (this.height/2) * 1.5f , this.width * 1.5f, this.height * 1.5f );
-
+            Rectangle hitBox = new Rectangle(position.x, position.y, this.width , this.height / 5 );
 
             /* HITBOX DRAWING
             shapeRenderer.setProjectionMatrix(game.getCamera().getCamera().combined);

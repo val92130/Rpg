@@ -1,20 +1,19 @@
-package com.mygdx.game;
+package com.mygdx.game.InputHandling;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.mygdx.game.Constants;
+import com.mygdx.game.Screens.GameScreen;
 
 /**
  * Created by val on 23/07/2015.
  */
 public class KeyBoardInputManager implements InputProcessor {
-    Game game;
+    GameScreen game;
     boolean left,right,up,down;
     Vector2 touchPos;
-    public KeyBoardInputManager(Game game)
+    public KeyBoardInputManager(GameScreen game)
     {
         this.game = game;
     }

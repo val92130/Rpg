@@ -2,10 +2,8 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.mygdx.game.Screens.GameScreen;
 
 /**
  * Created by val on 23/07/2015.
@@ -15,8 +13,8 @@ public class Camera {
     private int width, height;
     private float effectiveViewportWidth;
     private float effectiveViewportHeight;
-    private Game game;
-    public Camera(Game game)
+    private GameScreen game;
+    public Camera(GameScreen game)
     {
         this.game = game;
         width = Gdx.graphics.getWidth();
