@@ -23,8 +23,6 @@ public class SplashScreen implements Screen {
         texture = new Texture(Gdx.files.internal("images/background.png"));
         logo = new Texture(Gdx.files.internal("images/logo.png"));
 
-
-
         image = new Image(texture);
         image.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage.addActor(image);
@@ -32,7 +30,6 @@ public class SplashScreen implements Screen {
         imageLogo = new Image(logo);
         imageLogo.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage.addActor(imageLogo);
-
 
 
         image.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0.5f), Actions.delay(1.5f), Actions.fadeOut(0.5f), Actions.run(new Runnable() {
@@ -56,10 +53,10 @@ public class SplashScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,0,1); //sets clear color to black
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); //clear the batch
-        stage.act(); //update all actors
-        stage.draw(); //draw all actors on the Stage.getBatch()
+        Gdx.gl.glClearColor(0,0,0,1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act();
+        stage.draw();
     }
 
     @Override

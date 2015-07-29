@@ -26,6 +26,7 @@ public class Character {
     private Vector2 destinationVector, destinationPoint;
     private int speed = 500;
     Texture redCrossTexture, greenCrossTexture;
+    boolean followingPath = false;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     public Character(GameScreen game, Texture texture, int width, int height)
@@ -47,6 +48,9 @@ public class Character {
     public Vector2 getPosition()
     {
         return position;
+    }
+    public Vector2 getDestinationPoint(){
+        return this.destinationPoint;
     }
 
     public void setPosition(Vector2 position)
@@ -144,6 +148,7 @@ public class Character {
     {
 
         this.checkCollision();
+        followingPath = destinationPoint != null;
         if(destinationPoint != null)
         {
             if(Math.abs(destinationPoint.x - position.x) > 3 && Math.abs(destinationPoint.y - position.y) > 3 )
@@ -156,4 +161,9 @@ public class Character {
             }
         }
     };
+
+    public boolean isFollowingPath()
+    {
+        return followingPath;
+    }
 }

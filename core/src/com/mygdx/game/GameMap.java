@@ -33,7 +33,6 @@ public class GameMap {
         this.game = game;
         this.fileName = fileName;
         map = new TmxMapLoader().load(fileName);
-
         mapRenderer = new OrthogonalTiledMapRenderer(getMap(), ratio);
     }
 

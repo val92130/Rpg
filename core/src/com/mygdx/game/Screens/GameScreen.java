@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Camera;
@@ -74,6 +75,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
+        System.out.println("resize");
+        camera.getCamera().setToOrtho(false, width, height);
 
     }
 
