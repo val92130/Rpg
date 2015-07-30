@@ -3,17 +3,18 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.game.Characters.Character;
 import com.mygdx.game.Screens.GameScreen;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -34,6 +35,7 @@ public class GameMap {
         this.fileName = fileName;
         map = new TmxMapLoader().load(fileName);
         mapRenderer = new OrthogonalTiledMapRenderer(getMap(), ratio);
+        ShaderProgram.pedantic = false;
     }
 
     public void update()
@@ -44,12 +46,19 @@ public class GameMap {
     public void draw(SpriteBatch batch)
     {
         mapRenderer.setView(game.getCamera().getCamera());
-        mapRenderer.render();
-        batch.begin();
+        //mapRenderer.render();
+        mapRenderer.getBatch().begin();
+        mapRenderer.renderTileLayer(this.getGroundLayer());
+        mapRenderer.renderTileLayer(this.getWaterLayer());
+        player.render((SpriteBatch)mapRenderer.getBatch());
+        mapRenderer.renderTileLayer(this.getVegetationLayer());
 
-        player.render(batch);
-        batch.end();
+        mapRenderer.renderTileLayer(this.getCollisionLayer());
+
+        mapRenderer.getBatch().end();
+
     }
+
 
     public Character getPlayer()
     {
@@ -71,6 +80,11 @@ public class GameMap {
             }
         }
         return cells;
+    }
+
+    public OrthogonalTiledMapRenderer getMapRenderer()
+    {
+        return this.mapRenderer;
     }
 
     public boolean isCollision(int x, int y)
@@ -119,11 +133,22 @@ public class GameMap {
     {
         return (TiledMapTileLayer)map.getLayers().get("vegetation");
     }
+    public TiledMapTileLayer getWaterLayer()
+    {
+        return (TiledMapTileLayer)map.getLayers().get("water");
+    }
 
     public TiledMapTileLayer.Cell getClosestCell(int x, int y, TiledMapTileLayer layer)
     {
         Vector3 worldCoords = game.getCamera().getCamera().unproject(new Vector3(x,y,0));
         Vector2 selectedTile = new Vector2(worldCoords.x / Constants.TILE_SIZE, worldCoords.y / Constants.TILE_SIZE );
+        TiledMapTileLayer.Cell cell = layer.getCell((int)selectedTile.x / ratio, (int)selectedTile.y / ratio);
+        return cell;
+    }
+
+    public TiledMapTileLayer.Cell getClosestCellWorldCoords(int x, int y, TiledMapTileLayer layer)
+    {
+        Vector2 selectedTile = new Vector2(x / Constants.TILE_SIZE, y / Constants.TILE_SIZE );
         TiledMapTileLayer.Cell cell = layer.getCell((int)selectedTile.x / ratio, (int)selectedTile.y / ratio);
         return cell;
     }

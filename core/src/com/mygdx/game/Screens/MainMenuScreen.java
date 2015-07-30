@@ -3,6 +3,7 @@ package com.mygdx.game.Screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -34,8 +35,14 @@ public class MainMenuScreen implements Screen {
     private Label heading;
     private Texture backGround;
     private SpriteBatch spriteBatch;
+    private Music music;
     @Override
     public void show() {
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/background.mp3"));
+        music.setLooping(true);
+        music.setVolume(0.0f);
+        music.play();
 
         spriteBatch = new SpriteBatch();
         backGround = new Texture(Gdx.files.internal("images/menu-background.png"));
@@ -134,11 +141,13 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void hide() {
+        music.stop();
         dispose();
     }
 
     @Override
     public void dispose() {
+        music.dispose();
         stage.dispose();
     }
 }

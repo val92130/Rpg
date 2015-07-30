@@ -41,7 +41,8 @@ public class Camera {
         cam.update();
         correctBoundaries();
 
-        if(Gdx.input.isTouched())
+        if(Gdx.input.isTouched() || Gdx.input.isKeyPressed(Constants.KEY_MOVE_LEFT) ||  Gdx.input.isKeyPressed(Constants.KEY_MOVE_RIGHT) ||
+                Gdx.input.isKeyPressed(Constants.KEY_MOVE_DOWN) || Gdx.input.isKeyPressed(Constants.KEY_MOVE_UP))
         {
             destVector = null;
         }
@@ -49,7 +50,8 @@ public class Camera {
 
         if(game.getMap().getPlayer().isFollowingPath()) {
 
-            if(Gdx.input.isTouched() )
+            if(Gdx.input.isTouched() || Gdx.input.isKeyPressed(Constants.KEY_MOVE_LEFT) ||  Gdx.input.isKeyPressed(Constants.KEY_MOVE_RIGHT) ||
+            Gdx.input.isKeyPressed(Constants.KEY_MOVE_DOWN) || Gdx.input.isKeyPressed(Constants.KEY_MOVE_UP) )
             {
                 flag = true;
             }

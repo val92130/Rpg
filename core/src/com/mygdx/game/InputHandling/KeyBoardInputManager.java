@@ -40,10 +40,13 @@ public class KeyBoardInputManager implements InputProcessor {
             game.getCamera().Move(new Vector2(0,-Constants.CAMERA_SPEED* Gdx.graphics.getDeltaTime() ));
         }
 
-
     }
 
     public boolean keyDown(int keycode) {
+        if(keycode == Constants.KEY_TOGGLE_NIGHT)
+        {
+            game.getAmbientEventManager().setNightTime(!game.getAmbientEventManager().getNightTime());
+        }
         return false;
     }
 

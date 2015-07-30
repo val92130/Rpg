@@ -16,6 +16,7 @@ public class Constants {
     public static int KEY_MOVE_RIGHT = Input.Keys.RIGHT;
     public static int KEY_MOVE_UP = Input.Keys.UP;
     public static int KEY_MOVE_DOWN = Input.Keys.DOWN;
+    public static int KEY_TOGGLE_NIGHT = Input.Keys.N;
 
     // Tile Map
     public static int TILE_SIZE = 16;
