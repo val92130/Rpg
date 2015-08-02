@@ -86,6 +86,17 @@ public class Camera {
 
     }
 
+    public Vector2 unProject(Vector2 screenCoords)
+    {
+        Vector3 t = cam.unproject(new Vector3(screenCoords.x, screenCoords.y, 0));
+        return new Vector2(t.x, t.y);
+    }
+
+    public Vector2 project(Vector2 worldCoords)
+    {
+        Vector3 t = cam.project(new Vector3(worldCoords.x, worldCoords.y, 0));
+        return new Vector2(t.x, t.y);
+    }
 
     public void Zoom(double ammount)
     {

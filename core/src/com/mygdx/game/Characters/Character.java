@@ -150,7 +150,7 @@ public class Character {
         followingPath = destinationPoint != null;
         if(destinationPoint != null)
         {
-            if(Math.abs(destinationPoint.x - position.x) > 3 && Math.abs(destinationPoint.y - position.y) > 3 )
+            if(Math.abs(destinationPoint.x - position.x) > 3 || Math.abs(destinationPoint.y - position.y) > 3 )
             {
                 position.x += destinationVector.x * Gdx.graphics.getDeltaTime() * speed;
                 position.y += destinationVector.y * Gdx.graphics.getDeltaTime() * speed;

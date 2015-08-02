@@ -14,7 +14,11 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Characters.Character;
+import com.mygdx.game.PathFinding.Node;
+import com.mygdx.game.PathFinding.PathMap;
 import com.mygdx.game.Screens.GameScreen;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -36,6 +40,12 @@ public class GameMap {
         map = new TmxMapLoader().load(fileName);
         mapRenderer = new OrthogonalTiledMapRenderer(getMap(), ratio);
         ShaderProgram.pedantic = false;
+
+        PathMap p = new PathMap(this, new Vector2((int)(player.getPosition().x / ratio / Constants.TILE_SIZE), (int)(player.getPosition().y / ratio / Constants.TILE_SIZE)), new Vector2(26,10));
+
+        System.out.println(new Vector2((int)(player.getPosition().x / ratio / Constants.TILE_SIZE), (int)(player.getPosition().y / ratio / Constants.TILE_SIZE)));
+        nodes = null;
+        System.out.println(nodes == null ? "NULL !! " : "Not null :)");
     }
 
     public void update()
@@ -43,8 +53,30 @@ public class GameMap {
         player.update();
     }
 
+    public ArrayList<Node> nodes;
+    int index = 0;
+    long now, prev = System.currentTimeMillis();
+
     public void draw(SpriteBatch batch)
     {
+        now = System.currentTimeMillis();
+
+        if(now - prev >= 200)
+        {
+            if(nodes != null)
+            {
+                if(index >= nodes.size())
+                {
+                    index = 0;
+                }
+                Node n = nodes.get(index);
+                player.moveTo(new Vector2(nodes.get(index).getX() * ratio * Constants.TILE_SIZE,nodes.get(index).getY() * ratio * Constants.TILE_SIZE ));
+                index++;
+                System.out.println(player.getPosition());
+            }
+            prev = now;
+        }
+
         mapRenderer.setView(game.getCamera().getCamera());
         //mapRenderer.render();
         mapRenderer.getBatch().begin();
@@ -54,6 +86,7 @@ public class GameMap {
         mapRenderer.renderTileLayer(this.getVegetationLayer());
 
         mapRenderer.renderTileLayer(this.getCollisionLayer());
+
 
         mapRenderer.getBatch().end();
 
@@ -91,6 +124,11 @@ public class GameMap {
     {
         TiledMapTileLayer t = getCollisionLayer();
         return t.getCell(x,y) != null;
+    }
+
+    public Vector2 worldToCellCoords(Vector2 worldCoords)
+    {
+        return new Vector2((int)(worldCoords.x / Constants.TILE_SIZE / ratio), (int)(this.getGroundLayer().getHeight() - (worldCoords.y / Constants.TILE_SIZE / ratio) + 1));
     }
 
     public int getScaleRatio()

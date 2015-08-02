@@ -3,7 +3,12 @@ package com.mygdx.game.InputHandling;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.mygdx.game.Characters.*;
+import com.mygdx.game.Constants;
+import com.mygdx.game.PathFinding.PathMap;
 import com.mygdx.game.Screens.GameScreen;
+
+import java.util.ArrayList;
 
 /**
  * Created by val on 26/07/2015.
@@ -22,6 +27,22 @@ public class TouchInputManager implements GestureDetector.GestureListener {
     @Override
     public boolean tap(float x, float y, int count, int button) {
 
+        //System.out.println(game.getMap().worldToCellCoords(game.getCamera().unProject((new Vector2(x,y)))));
+
+        com.mygdx.game.Characters.Character player = game.getMap().getPlayer();
+        int ratio = game.getMap().getScaleRatio();
+        Vector2 v = game.getCamera().unProject(new Vector2(x,y ));
+        int vx = (int)(v.x / ratio / Constants.TILE_SIZE);
+        int vy = (int)(v.y / ratio / Constants.TILE_SIZE);
+        System.out.println(vx   + " : " + vy);
+        PathMap p = new PathMap(game.getMap(), new Vector2((int)(player.getPosition().x / ratio / Constants.TILE_SIZE), (int)(player.getPosition().y / ratio / Constants.TILE_SIZE)),
+                new Vector2(vx,vy));
+        game.getMap().nodes = p.findPath();
+
+        /*
+
+
+
         if(game.getMap().isCollisionClosestCell((int)x,(int)y))
         {
             System.out.println("blocked");
@@ -33,6 +54,7 @@ public class TouchInputManager implements GestureDetector.GestureListener {
         }
 
         System.out.println("tap");
+        */
         return false;
     }
 

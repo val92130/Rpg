@@ -47,18 +47,14 @@ public class PathMap {
             for(int j = 0; j < groundLayer.getHeight(); j++)
             {
                 Node candidate;
-                if(groundLayer.getCell(i,j) != null && colLayer.getCell(i,j) == null && waterLayer.getCell(i,j) == null && vegetationLayer.getCell(i,j) == null)
+                candidate = new Node(i,j, this);
+                if(groundLayer.getCell(i,j) == null || colLayer.getCell(i,j) != null || waterLayer.getCell(i,j) != null || vegetationLayer.getCell(i,j) != null)
                 {
-                    candidate = new Node(i,j,this);
+                    // collision cell !
                     candidate.collision = true;
-                } else
-                {
-                    candidate = new Node(i,j, this);
                 }
-                if(candidate != null)
-                {
-                    nodes[i][j] = candidate;
-                }
+
+                nodes[i][j] = candidate;
             }
         }
 
