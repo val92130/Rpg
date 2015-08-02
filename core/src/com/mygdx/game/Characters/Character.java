@@ -88,7 +88,6 @@ public class Character {
         {
             Vector2 v = entry.getValue();
             v = new Vector2(v.x * game.getMap().getScaleRatio() * Constants.TILE_SIZE,v.y * game.getMap().getScaleRatio() * Constants.TILE_SIZE );
-
             Rectangle r = new Rectangle(v.x, v.y, Constants.TILE_SIZE * game.getMap().getScaleRatio(), Constants.TILE_SIZE * game.getMap().getScaleRatio());
 
             Rectangle hitBox = new Rectangle(position.x, position.y, this.width , this.height / 5 );

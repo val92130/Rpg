@@ -36,7 +36,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-
         spriteBatch = new SpriteBatch();
         uiBatch = new SpriteBatch();
         InputMultiplexer im = new InputMultiplexer();

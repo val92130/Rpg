@@ -56,7 +56,6 @@ public class AmbientEventManager {
         }
         ambientShader.end();
         /* END NIGHT SIMULATION */
-
     }
 
     public void update()
