@@ -1,5 +1,7 @@
 package com.mygdx.game.PathFinding;
 
+import com.badlogic.gdx.math.Vector2;
+
 import java.util.ArrayList;
 
 /**
@@ -39,6 +41,16 @@ public class Node {
     public int getY()
     {
         return this.y;
+    }
+
+    public Vector2 getPosition()
+    {
+        return new Vector2(getX(), getY());
+    }
+
+    public Vector2 getWorldCoordsVector()
+    {
+        return map.getMap().cellToWorldCoords(this.getPosition());
     }
 
     public Node getParent()
@@ -92,7 +104,6 @@ public class Node {
         }
 
 
-        /* if wanna allow diagonal, uncomment
         list.clear();
         for (int x2=-1;x2<2;x2++) {
             for (int y2 = -1; y2 < 2; y2++) {
@@ -108,7 +119,7 @@ public class Node {
                 }
             }
         }
-        */
+
 
 
         return list;

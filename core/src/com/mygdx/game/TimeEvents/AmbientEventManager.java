@@ -14,7 +14,7 @@ import com.mygdx.game.Screens.GameScreen;
 public class AmbientEventManager {
 
     private GameScreen game;
-    private ShaderProgram ambientShader;
+    private ShaderProgram ambientShader, earthQuakeShader;
     private  float ambientIntensity = .7f;
     private Vector3 ambientColor = new Vector3(0.3f, 0.3f, 0.7f);
     private Vector3 oldAmbientColor = new Vector3(1, 1, 1);
@@ -30,6 +30,7 @@ public class AmbientEventManager {
 
         this.game = game;
         ambientShader = new ShaderProgram(Gdx.files.internal("shaders/passthrough.vsh.glsl"), Gdx.files.internal("shaders/ambient.fsh.glsl"));
+        earthQuakeShader = new ShaderProgram(Gdx.files.internal("shaders/red.vsh.glsl"), Gdx.files.internal("shaders/red.fsh.glsl"));
         if(!ambientShader.isCompiled())
         {
             System.out.println(ambientShader.getLog());
@@ -55,7 +56,11 @@ public class AmbientEventManager {
 
         }
         ambientShader.end();
+
+
         /* END NIGHT SIMULATION */
+
+
     }
 
     public void update()

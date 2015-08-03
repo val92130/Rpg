@@ -40,12 +40,6 @@ public class GameMap {
         map = new TmxMapLoader().load(fileName);
         mapRenderer = new OrthogonalTiledMapRenderer(getMap(), ratio);
         ShaderProgram.pedantic = false;
-
-        PathMap p = new PathMap(this, new Vector2((int)(player.getPosition().x / ratio / Constants.TILE_SIZE), (int)(player.getPosition().y / ratio / Constants.TILE_SIZE)), new Vector2(26,10));
-
-        System.out.println(new Vector2((int)(player.getPosition().x / ratio / Constants.TILE_SIZE), (int)(player.getPosition().y / ratio / Constants.TILE_SIZE)));
-        nodes = null;
-        System.out.println(nodes == null ? "NULL !! " : "Not null :)");
     }
 
     public void update()
@@ -53,30 +47,10 @@ public class GameMap {
         player.update();
     }
 
-    public ArrayList<Node> nodes;
-    int index = 0;
-    long now, prev = System.currentTimeMillis();
+
 
     public void draw(SpriteBatch batch)
     {
-        now = System.currentTimeMillis();
-
-        if(now - prev >= 200)
-        {
-            if(nodes != null)
-            {
-                if(index >= nodes.size())
-                {
-                    index = 0;
-                }
-                Node n = nodes.get(index);
-                player.moveTo(new Vector2(nodes.get(index).getX() * ratio * Constants.TILE_SIZE,nodes.get(index).getY() * ratio * Constants.TILE_SIZE ));
-                index++;
-                System.out.println(player.getPosition());
-            }
-            prev = now;
-        }
-
         mapRenderer.setView(game.getCamera().getCamera());
         //mapRenderer.render();
         mapRenderer.getBatch().begin();
@@ -86,7 +60,6 @@ public class GameMap {
         mapRenderer.renderTileLayer(this.getVegetationLayer());
 
         mapRenderer.renderTileLayer(this.getCollisionLayer());
-
 
         mapRenderer.getBatch().end();
 
@@ -128,7 +101,12 @@ public class GameMap {
 
     public Vector2 worldToCellCoords(Vector2 worldCoords)
     {
-        return new Vector2((int)(worldCoords.x / Constants.TILE_SIZE / ratio), (int)(this.getGroundLayer().getHeight() - (worldCoords.y / Constants.TILE_SIZE / ratio) + 1));
+        return new Vector2((int)(worldCoords.x / Constants.TILE_SIZE / ratio), (int)(worldCoords.y / Constants.TILE_SIZE / ratio) );
+    }
+
+    public Vector2 cellToWorldCoords(Vector2 cellCoords)
+    {
+        return new Vector2(cellCoords.x * game.getMap().getScaleRatio() * Constants.TILE_SIZE,cellCoords.y * game.getMap().getScaleRatio() * Constants.TILE_SIZE);
     }
 
     public int getScaleRatio()

@@ -34,10 +34,7 @@ public class TouchInputManager implements GestureDetector.GestureListener {
         Vector2 v = game.getCamera().unProject(new Vector2(x,y ));
         int vx = (int)(v.x / ratio / Constants.TILE_SIZE);
         int vy = (int)(v.y / ratio / Constants.TILE_SIZE);
-        System.out.println(vx   + " : " + vy);
-        PathMap p = new PathMap(game.getMap(), new Vector2((int)(player.getPosition().x / ratio / Constants.TILE_SIZE), (int)(player.getPosition().y / ratio / Constants.TILE_SIZE)),
-                new Vector2(vx,vy));
-        game.getMap().nodes = p.findPath();
+        game.getMap().getPlayer().findPathTo(new Vector2(vx,vy));
 
         /*
 

@@ -57,7 +57,17 @@ public class Camera {
             }
             if(destVector == null && !flag)
             {
-                destVector = game.getMap().getPlayer().getDestinationPoint();
+                if(game.getMap().getPlayer().getFollowedPath() != null)
+                {
+                    if(game.getMap().getPlayer().getFollowedPath().size() > 0)
+                    {
+                        destVector = new Vector2(game.getMap().getPlayer().getFollowedPath().get( game.getMap().getPlayer().getFollowedPath().size() -1).getWorldCoordsVector().x,game.getMap().getPlayer().getFollowedPath().get( game.getMap().getPlayer().getFollowedPath().size() -1).getWorldCoordsVector().y) ;
+                    }
+                } else
+                {
+                    destVector = game.getMap().getPlayer().getDestinationPoint();
+                }
+
             }
 
         } else

@@ -8,10 +8,12 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.game.Constants;
+import com.mygdx.game.PathFinding.Node;
+import com.mygdx.game.PathFinding.PathMap;
 import com.mygdx.game.Screens.GameScreen;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -24,10 +26,12 @@ public class Character {
     private Texture texture;
     private int width, height;
     private Vector2 destinationVector, destinationPoint;
-    private int speed = 500;
+    private int speed = 280;
     Texture redCrossTexture, greenCrossTexture;
     boolean followingPath = false;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
+    private ArrayList<Node> destinationPath = null;
+
 
     public Character(GameScreen game, Texture texture, int width, int height)
     {
@@ -37,6 +41,7 @@ public class Character {
         this.height = height;
         this.texture = texture;
         this.game = game;
+        destinationVector = Vector2.Zero;
     }
 
     public Character(GameScreen game, Texture texture,int width, int height ,Vector2 position)
@@ -52,6 +57,10 @@ public class Character {
     public Vector2 getDestinationPoint(){
         return this.destinationPoint;
     }
+    public ArrayList<Node> getFollowedPath()
+    {
+        return this.destinationPath;
+    }
 
     public void setPosition(Vector2 position)
     {
@@ -60,6 +69,26 @@ public class Character {
 
     public void moveTo(Vector2 destination)
     {
+        Vector2 dest = new Vector2(destination.x, destination.y);
+        Vector2 curr = new Vector2(position.x, position.y);
+        double diffx = Math.abs(curr.x-dest.x);
+        double diffy = Math.abs(curr.y-dest.y);
+
+        System.out.println("diffx " + diffx + " , diffy " + diffy);
+
+        if(diffx > diffy)
+        {
+            if(destination.x > this.position.x )
+            {
+                System.out.println("right");
+            }
+            if(destination.x < this.position.x )
+            {
+                System.out.println("left");
+            }
+        }
+
+
         destinationPoint = destination;
         destinationVector = new Vector2(destination.x - position.x , destination.y - position.y);
         destinationVector = destinationVector.nor();
@@ -67,7 +96,21 @@ public class Character {
 
     public void moveTo(Vector3 destination)
     {
+
+
         this.moveTo(new Vector2(destination.x, destination.y));
+    }
+
+    public void findPathTo(Vector2 cellCoordDestination)
+    {
+        PathMap p = new PathMap(game.getMap(), game.getMap().worldToCellCoords(this.position),
+                new Vector2(cellCoordDestination.x,cellCoordDestination.y));
+        ArrayList<Node> nodes = p.findPath();
+        if(nodes != null)
+        {
+            destinationPath = nodes;
+        }
+
     }
 
     public void render(SpriteBatch batch)
@@ -147,6 +190,19 @@ public class Character {
     {
 
         this.checkCollision();
+        if(destinationPath != null && !followingPath)
+        {
+            if(destinationPath.size() == 0)
+            {
+                destinationPath = null;
+            } else
+            {
+                Node dest = destinationPath.get(0);
+                this.moveTo(game.getMap().cellToWorldCoords(new Vector2(dest.getX(), dest.getY())));
+                destinationPath.remove(dest);
+            }
+
+        }
         followingPath = destinationPoint != null;
         if(destinationPoint != null)
         {

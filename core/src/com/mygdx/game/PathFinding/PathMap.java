@@ -88,6 +88,11 @@ public class PathMap {
         return dx + dy;
     }
 
+    public GameMap getMap()
+    {
+        return this.map;
+    }
+
     public float getMovementCost(Node a, Node b)
     {
         return getCost(a.x, a.y, b.x, b.y) == 1 ? 1 : 1.5f;
