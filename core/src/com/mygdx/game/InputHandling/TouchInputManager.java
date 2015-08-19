@@ -27,31 +27,38 @@ public class TouchInputManager implements GestureDetector.GestureListener {
     @Override
     public boolean tap(float x, float y, int count, int button) {
 
-        //System.out.println(game.getMap().worldToCellCoords(game.getCamera().unProject((new Vector2(x,y)))));
-
-        com.mygdx.game.Characters.Character player = game.getMap().getPlayer();
-        int ratio = game.getMap().getScaleRatio();
-        Vector2 v = game.getCamera().unProject(new Vector2(x,y ));
-        int vx = (int)(v.x / ratio / Constants.TILE_SIZE);
-        int vy = (int)(v.y / ratio / Constants.TILE_SIZE);
-        game.getMap().getPlayer().findPathTo(new Vector2(vx,vy));
-
-        /*
-
-
-
-        if(game.getMap().isCollisionClosestCell((int)x,(int)y))
+        boolean npcEncountered = false;
+        for(Npc n : game.getMap().getNpcs())
         {
-            System.out.println("blocked");
-
-        } else
-        {
-            game.getMap().getPlayer().moveTo(game.getCamera().getCamera().unproject(new Vector3(x,y,0)));
-            System.out.println("not blocked");
+            if(n.getArea().contains(game.getCamera().unProject(new Vector2(x,y))))
+            {
+                if(n.getPosition().dst(game.getMap().getPlayer().getPosition()) > Constants.TILE_SIZE * game.getMap().getScaleRatio())
+                {
+                    com.mygdx.game.Characters.Player player = game.getMap().getPlayer();
+                    int ratio = game.getMap().getScaleRatio();
+                    Vector2 v = (new Vector2(n.getPosition().x,n.getPosition().y ));
+                    int vx = (int)(v.x / ratio / Constants.TILE_SIZE);
+                    int vy = (int)(v.y / ratio / Constants.TILE_SIZE);
+                    game.getMap().getPlayer().findPathTo(new Vector2(vx,vy - 2));
+                    break;
+                }
+                System.out.println(n.getName());
+                npcEncountered = true;
+                break;
+            }
         }
 
-        System.out.println("tap");
-        */
+        // If we haven't clicked on an npc, we move the player to the selected point
+        if(!npcEncountered)
+        {
+            com.mygdx.game.Characters.Player player = game.getMap().getPlayer();
+            int ratio = game.getMap().getScaleRatio();
+            Vector2 v = game.getCamera().unProject(new Vector2(x,y ));
+            int vx = (int)(v.x / ratio / Constants.TILE_SIZE);
+            int vy = (int)(v.y / ratio / Constants.TILE_SIZE);
+            game.getMap().getPlayer().findPathTo(new Vector2(vx,vy));
+        }
+
         return false;
     }
 

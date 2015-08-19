@@ -11,9 +11,12 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Characters.Character;
+import com.mygdx.game.Characters.Npc;
+import com.mygdx.game.Characters.Player;
 import com.mygdx.game.PathFinding.Node;
 import com.mygdx.game.PathFinding.PathMap;
 import com.mygdx.game.Screens.GameScreen;
@@ -30,21 +33,28 @@ public class GameMap {
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     private int ratio = 4;
-    private Character player;
+    private Player player;
+    private ArrayList<Npc> npcs;
 
     public GameMap(String fileName, GameScreen game)
     {
-        player = new Character(game, new Texture(Gdx.files.internal("player.png")),60,100, new Vector2(5 * 16 * ratio, 20 * 16 * ratio) );
+        npcs = new ArrayList<Npc>();
+        player = new Player(game, new Texture(Gdx.files.internal("player.png")),60,100, new Vector2(5 * 16 * ratio, 20 * 16 * ratio) );
         this.game = game;
         this.fileName = fileName;
         map = new TmxMapLoader().load(fileName);
         mapRenderer = new OrthogonalTiledMapRenderer(getMap(), ratio);
         ShaderProgram.pedantic = false;
+        npcs.add(new Npc(game, new Texture(Gdx.files.internal("npc.png")), 60,100,"Lea", new Vector2(40 * 16 * ratio, 17 * 16 * ratio)));
     }
 
     public void update()
     {
         player.update();
+        for(Npc n : npcs)
+        {
+            n.update();
+        }
     }
 
 
@@ -56,17 +66,43 @@ public class GameMap {
         mapRenderer.getBatch().begin();
         mapRenderer.renderTileLayer(this.getGroundLayer());
         mapRenderer.renderTileLayer(this.getWaterLayer());
-        player.render((SpriteBatch)mapRenderer.getBatch());
-        mapRenderer.renderTileLayer(this.getVegetationLayer());
 
+        player.render((SpriteBatch)mapRenderer.getBatch());
+        this.renderNpcs((SpriteBatch)mapRenderer.getBatch());
+
+        mapRenderer.renderTileLayer(this.getVegetationLayer());
         mapRenderer.renderTileLayer(this.getCollisionLayer());
 
         mapRenderer.getBatch().end();
 
     }
 
+    public void renderNpcs(SpriteBatch batch)
+    {
+        for(Npc n : npcs)
+        {
+            n.render(batch);
+        }
+    }
 
-    public Character getPlayer()
+    static public boolean intersect(Rectangle rectangle1, Rectangle rectangle2, Rectangle intersection) {
+        if (rectangle1.overlaps(rectangle2)) {
+            intersection.x = Math.max(rectangle1.x, rectangle2.x);
+            intersection.width = Math.min(rectangle1.x + rectangle1.width, rectangle2.x + rectangle2.width) - intersection.x;
+            intersection.y = Math.max(rectangle1.y, rectangle2.y);
+            intersection.height = Math.min(rectangle1.y + rectangle1.height, rectangle2.y + rectangle2.height) - intersection.y;
+            return true;
+        }
+        return false;
+    }
+
+    public ArrayList<Npc> getNpcs()
+    {
+        return npcs;
+    }
+
+
+    public Player getPlayer()
     {
         return player;
     }
